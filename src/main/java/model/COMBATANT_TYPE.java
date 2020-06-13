@@ -1,5 +1,5 @@
 package model;
 
 public enum COMBATANT_TYPE {
-    PLAYER, MONSTER, ALLY, OTHER
+    MONSTER, PLAYER, ALLY, OTHER
 }

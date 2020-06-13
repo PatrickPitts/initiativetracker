@@ -16,6 +16,7 @@ public class Combatant implements Creature, Comparable<Combatant>{
     private Map<String, Integer> initiativeBonuses = new HashMap<>();
     private int maxHP;
     private int currentHP;
+    private int armorClass = 10;
 
     public Combatant(){}
 
@@ -82,6 +83,15 @@ public class Combatant implements Creature, Comparable<Combatant>{
 
     public void setMaxHP(int maxHP) {
         this.maxHP = maxHP;
+        setCurrentHP(maxHP);
+    }
+
+    public int getArmorClass() {
+        return armorClass;
+    }
+
+    public void setArmorClass(int armorClass) {
+        this.armorClass = armorClass;
     }
 
     public int getCurrentHP() {
@@ -116,6 +126,7 @@ public class Combatant implements Creature, Comparable<Combatant>{
         obj.put("initiativeBonuses", new JSONObject(initiativeBonuses));
         obj.put("currentHP", currentHP);
         obj.put("maxHP", maxHP);
+        obj.put("armorClass", armorClass);
         return obj;
     }
 
@@ -135,8 +146,14 @@ public class Combatant implements Creature, Comparable<Combatant>{
     }
 
     public void changeHP(int change){
-        int newHP = currentHP - change;
-        this.currentHP = (newHP > 0) ? currentHP = newHP : 0;
+        int newHP = currentHP + change;
+//        this.currentHP = (newHP > 0) ? currentHP = newHP : 0;
+        if(newHP < 0){
+            this.currentHP = 0;
+        } else if(newHP > maxHP){
+            this.currentHP = maxHP;
+        }
+        this.currentHP = newHP;
     }
 
     /**

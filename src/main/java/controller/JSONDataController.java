@@ -47,7 +47,7 @@ public class JSONDataController {
     /**
      * Reads
      *
-     * @return a single org.json.simple.JSONObject that contains all p
+     * @return a single org.json.simple.JSONObject that contains all parties
      */
     public static JSONObject readAllPartiesAsJSONObject(String partiesFilePath) {
 

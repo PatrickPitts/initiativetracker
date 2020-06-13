@@ -56,6 +56,21 @@ public class Party {
         }
     }
 
+    public String getPartyName() {
+        return partyName;
+    }
+
+    public void setPartyName(String partyName) {
+        this.partyName = partyName;
+    }
+
+    public PARTY_TYPE getPartyType() {
+        return partyType;
+    }
+
+    public void setPartyType(PARTY_TYPE partyType) {
+        this.partyType = partyType;
+    }
 
     public static int getMaxCount() {
         return maxCount;

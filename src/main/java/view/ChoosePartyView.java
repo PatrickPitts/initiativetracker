@@ -1,5 +1,6 @@
 package view;
 
+import controller.MainViewController;
 import model.Combatant;
 import model.Party;
 
@@ -7,6 +8,8 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class ChoosePartyView extends JFrame {
@@ -36,7 +39,13 @@ public class ChoosePartyView extends JFrame {
         partyDisplayPanel.setLayout(new GridBagLayout());
         buttonPanel.setLayout(new GridBagLayout());
 
+        JButton selectPartyButton = new JButton("Use Chosen Party");
+
+        selectPartyButton.addActionListener(e -> MainViewController.newPartyView((Party)partyNames.getSelectedValue(), passMe));
+
         partyNames.addListSelectionListener(e -> buildPartyDisplayPanel(partyDisplayPanel, (Party)partyNames.getSelectedValue()));
+
+        buttonPanel.add(selectPartyButton);
 
         listPanel.add(partyNames);
 
