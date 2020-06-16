@@ -1,18 +1,15 @@
 package view;
 
 import controller.MainViewController;
-import javafx.scene.control.TableCell;
 import model.Combatant;
 import model.Party;
 
 import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 public class MainView extends JFrame {
 
@@ -46,7 +43,7 @@ public class MainView extends JFrame {
         rebuild(party);
     }
 
-    public void rebuild(Party party){
+    public void rebuild(Party party) {
         buildButtonPanel(party);
         buildCombatantPanel(party);
         repaint();
@@ -98,7 +95,7 @@ public class MainView extends JFrame {
         rollInitButton.addActionListener(e -> MainViewController.totalPartyReroll());
 
         sortParty.addActionListener(e -> {
-            if(initiativeTable.getCellEditor() != null){
+            if (initiativeTable.getCellEditor() != null) {
                 initiativeTable.getCellEditor().stopCellEditing();
             }
             MainViewController.sortParty(party, initiativeTable);
@@ -106,11 +103,11 @@ public class MainView extends JFrame {
 
         addCombatantButton.addActionListener(e -> MainViewController.buildAddCombatantView());
 
-        choosePartyButton.addActionListener(e -> MainViewController.buildSelectPartyView());
+        choosePartyButton.addActionListener(e -> MainViewController.buildChoosePartyView());
 
         rollMonsterInitiativeButton.addActionListener(e -> MainViewController.rollMonstersInParty());
 
-        createNewPartyButton.addActionListener(e-> MainViewController.buildCreateNewPartyView());
+        createNewPartyButton.addActionListener(e -> MainViewController.buildCreateNewPartyView());
 
     }
 
@@ -162,7 +159,26 @@ public class MainView extends JFrame {
         add(mainPanel);
 
         setVisible(true);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        //setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int confirm = JOptionPane.showOptionDialog(
+                        null, "Save before shutting down?", "Save and Quit?",
+                        JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null
+                );
+                switch (confirm) {
+                    case 0:
+                        MainViewController.saveAllData();
+                    case 1:
+                        System.exit(0);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
     }
 
     //Resets the GridBagConstraints to standardized values
@@ -189,9 +205,9 @@ public class MainView extends JFrame {
         return partyData;
     }
 
-    class HitHealPanel extends JPanel{
+    class HitHealPanel extends JPanel {
 
-        HitHealPanel(Combatant c){
+        HitHealPanel(Combatant c) {
             setLayout(new GridBagLayout());
             GridBagConstraints g = new GridBagConstraints();
 
@@ -200,66 +216,93 @@ public class MainView extends JFrame {
             JButton hitButton = new JButton("Hit");
             JButton healButton = new JButton("Heal");
 
-            plusOneHealthButton.setPreferredSize(new Dimension(45,25));
-            minusOneHealthButton.setPreferredSize(new Dimension(45,25));
+            plusOneHealthButton.setPreferredSize(new Dimension(45, 25));
+            minusOneHealthButton.setPreferredSize(new Dimension(45, 25));
 
             hitButton.setPreferredSize(healButton.getPreferredSize());
 
             JTextField damageField = new JTextField("0");
             damageField.setPreferredSize(new Dimension(50, damageField.getPreferredSize().height));
 
-            plusOneHealthButton.addActionListener(e -> {c.changeHP(1); ((MainView)SwingUtilities.getWindowAncestor(this)).buildCombatantPanel(currentParty); });
-            minusOneHealthButton.addActionListener(e -> {c.changeHP(-1); ((MainView)SwingUtilities.getWindowAncestor(this)).buildCombatantPanel(currentParty);});
-            hitButton.addActionListener(e -> {c.changeHP(-1*Integer.parseInt(damageField.getText())); ((MainView)SwingUtilities.getWindowAncestor(this)).buildCombatantPanel(currentParty);});
-            healButton.addActionListener(e -> {c.changeHP(Integer.parseInt(damageField.getText())); ((MainView)SwingUtilities.getWindowAncestor(this)).buildCombatantPanel(currentParty);});
+            plusOneHealthButton.addActionListener(e -> {
+                c.changeHP(1);
+                ((MainView) SwingUtilities.getWindowAncestor(this)).buildCombatantPanel(currentParty);
+            });
+            minusOneHealthButton.addActionListener(e -> {
+                c.changeHP(-1);
+                ((MainView) SwingUtilities.getWindowAncestor(this)).buildCombatantPanel(currentParty);
+            });
+            hitButton.addActionListener(e -> {
+                c.changeHP(-1 * Integer.parseInt(damageField.getText()));
+                ((MainView) SwingUtilities.getWindowAncestor(this)).buildCombatantPanel(currentParty);
+            });
+            healButton.addActionListener(e -> {
+                c.changeHP(Integer.parseInt(damageField.getText()));
+                ((MainView) SwingUtilities.getWindowAncestor(this)).buildCombatantPanel(currentParty);
+            });
 
             damageField.addKeyListener(new NumbersOnlyKeyListener(damageField));
-
 
 
             add(plusOneHealthButton, g);
             g.gridy = 1;
             add(minusOneHealthButton, g);
-            g.gridx = 1; g.gridy = 0; g.gridheight=2;
+            g.gridx = 1;
+            g.gridy = 0;
+            g.gridheight = 2;
             add(damageField, g);
-            g.gridx = 2; g.gridheight=1;
+            g.gridx = 2;
+            g.gridheight = 1;
             add(healButton, g);
-            g.gridy= 1;
+            g.gridy = 1;
             add(hitButton, g);
 
             revalidate();
         }
     }
 
-    class InitiativeTableCellRenderer implements TableCellRenderer{
+    class InitiativeTableCellRenderer implements TableCellRenderer {
 
         private TableCellRenderer defaultRenderer = new DefaultTableCellRenderer();
+
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 
-            if(value instanceof Component){
+            if (value instanceof Component) {
                 return (Component) value;
             }
 
-            if(value instanceof Combatant){
+            if (value instanceof Combatant) {
                 Combatant c = (Combatant) value;
                 JTextField cell = new JTextField();
                 cell.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
-                switch (c.getCombatantType()){
+                switch (c.getCombatantType()) {
                     case MONSTER:
-                        cell.setBackground(Color.RED);
+                        if (c.getCurrentHP() <= 0) {
+                            cell.setBackground(new Color(153, 0, 0));
+                        } else {
+                            cell.setBackground(Color.RED);
+                        }
                         break;
                     case PLAYER:
-                        cell.setBackground(Color.GREEN);
+                        if (c.getCurrentHP() <= 0) {
+                            cell.setBackground(new Color(0, 102, 0));
+                        } else {
+                            cell.setBackground(Color.GREEN);
+                        }
                         break;
                     case ALLY:
-                        cell.setBackground(Color.YELLOW);
+                        if (c.getCurrentHP() <= 0) {
+                            cell.setBackground(new Color(255, 204, 0));
+                        } else {
+                            cell.setBackground(Color.YELLOW);
+                        }
                         break;
                     default:
                         cell.setBackground(Color.LIGHT_GRAY);
                         break;
                 }
-                switch (column){
+                switch (column) {
                     case 0:
                         cell.setText(c.getName());
                         return cell;
@@ -289,7 +332,7 @@ public class MainView extends JFrame {
         }
     }
 
-    class ButtonEditor extends DefaultCellEditor{
+    class ButtonEditor extends DefaultCellEditor {
 
         public ButtonEditor(JTextField textField) {
             super(textField);
@@ -303,14 +346,14 @@ public class MainView extends JFrame {
             super(comboBox);
         }
 
-        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column){
-            return new HitHealPanel((Combatant) table.getValueAt(row,column));
+        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+            return new HitHealPanel((Combatant) table.getValueAt(row, column));
         }
     }
 
-    class InitiativeTableModel extends DefaultTableModel{
+    class InitiativeTableModel extends DefaultTableModel {
 
-        public InitiativeTableModel(Party party){
+        public InitiativeTableModel(Party party) {
             super(getTableArray(party), headers);
         }
 
@@ -318,6 +361,7 @@ public class MainView extends JFrame {
         public boolean isCellEditable(int row, int column) {
             return true;
         }
+
         @Override
         public int getRowCount() {
             return partyData.length;

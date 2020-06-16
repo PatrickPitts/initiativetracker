@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.FileHandler;
 
-public class JSONDataController {
+public class DataController {
 
     static String filePath = "src/main/resources/partys.json";
 
@@ -28,12 +28,12 @@ public class JSONDataController {
         }
     }
 
-    public static void writeAllPartiesToJSON(ArrayList<Party> parties) {
+    public static void writeAllPartiesToJSON(Map<Integer, Party> parties) {
 
         JSONObject allPartiesObj = new JSONObject();
 
-        for (Party p : parties) {
-            allPartiesObj.put(p.getLocalCount(), p.toJSONObject());
+        for (Integer partyIndex : parties.keySet()) {
+            allPartiesObj.put( partyIndex, parties.get(partyIndex).toJSONObject());
         }
 
         try (FileWriter f = new FileWriter(filePath)) {
@@ -66,15 +66,29 @@ public class JSONDataController {
         //Currently assumes only one filepath, for one file of parties. May expand to multiple files
         //if the file size becomes and issue
         JSONObject allPartiesObject = readAllPartiesAsJSONObject(filePath);
-        Map<Integer, Party> partyMap = new HashMap<>();
+
+        Map<Integer, Party> partyMap = new HashMap<>(allPartiesObject.keySet().size());
 
 
         for (Object key : allPartiesObject.keySet()) {
+            System.out.println(key);
             Integer partyKey = Integer.parseInt((String) key);
             partyMap.put(partyKey, new Party((JSONObject) allPartiesObject.get(key)));
         }
 
 
         return partyMap;
+    }
+
+    public static void writeAllPartiesToFile(Map<Integer, Party> allParties){
+        try (FileWriter f = new FileWriter(filePath)) {
+            JSONObject allPartiesObject = new JSONObject();
+            for(Integer key : allParties.keySet()){
+                allPartiesObject.put(key, allParties.get(key).toJSONObject());
+            }
+            f.write(allPartiesObject.toJSONString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

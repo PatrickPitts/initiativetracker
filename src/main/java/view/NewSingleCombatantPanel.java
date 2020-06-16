@@ -35,12 +35,10 @@ public class NewSingleCombatantPanel extends JPanel {
         final JTextField acField = new JTextField(3);
 
 
-            dexField.setText("10");
-            extraBonusField.setText("0");
-            acField.setText("10");
-            maxHPField.setText("0");
-
-
+        dexField.setText("10");
+        extraBonusField.setText("0");
+        acField.setText("10");
+        maxHPField.setText("1");
 
 
         final ButtonGroup combatantTypeButtonGroup = new ButtonGroup();

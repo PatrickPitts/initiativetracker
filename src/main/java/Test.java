@@ -1,12 +1,11 @@
-import com.fasterxml.jackson.databind.ObjectMapper;
-import controller.JSONDataController;
+import controller.DataController;
 import model.Combatant;
 import model.Party;
 import org.json.simple.JSONObject;
 
-import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Test {
@@ -39,18 +38,19 @@ public class Test {
         secondParty.getAllCombatants().get(1).setCombatantTypeToPlayer();
         secondParty.getAllCombatants().get(2).setCombatantTypeToPlayer();
 
-        final ArrayList<Party> allParties = new ArrayList<>();
+        final Map<Integer, Party> allParties = new HashMap<>();
         {
-            allParties.add(party);
-            allParties.add(secondParty);
+            allParties.put(0, party);
+            allParties.put(1, secondParty);
         }
 
-        JSONDataController.writeAllPartiesToJSON(allParties);
+        //Updated this method, takes Map now
+        DataController.writeAllPartiesToJSON(allParties);
         return null;
     }
 
     public static void testRead() {
-        JSONObject partiesObject = JSONDataController.readAllPartiesAsJSONObject(filePath);
+        JSONObject partiesObject = DataController.readAllPartiesAsJSONObject(filePath);
         for(Object key : partiesObject.keySet()){
             System.out.println(key);
             System.out.println(partiesObject.get(key));

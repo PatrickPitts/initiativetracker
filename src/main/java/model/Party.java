@@ -185,6 +185,7 @@ public class Party {
         pObject.put("players", playerObject);
         pObject.put("nonplayers", otherObject);
         pObject.put("partyType", partyType.toString());
+        pObject.put("partyName", partyName);
         return pObject;
     }
 
@@ -200,7 +201,7 @@ public class Party {
 
     @Override
     public String toString() {
-        if (partyName == null) {
+        if (partyName == null || partyName.length() == 0) {
             return String.join(", ", getCharacterNames());
         }
         return partyName;

@@ -2,6 +2,7 @@ package controller;
 
 import model.COMBATANT_TYPE;
 import model.Combatant;
+import model.PARTY_TYPE;
 import model.Party;
 import view.*;
 
@@ -22,7 +23,7 @@ public class MainViewController {
 
     public static void initView(){
 
-        allParties = JSONDataController.getAllPartiesMap();
+        allParties = DataController.getAllPartiesMap();
 
         currentParty = allParties.get(0);
         currentParty.rollForInitiative();
@@ -112,7 +113,7 @@ public class MainViewController {
         mainView.rebuild(currentParty);
     }
 
-    public static void buildSelectPartyView(){
+    public static void buildChoosePartyView(){
         JFrame selectPartyFrame = new ChoosePartyView(new ArrayList<>(allParties.values()));
     }
 
@@ -137,5 +138,28 @@ public class MainViewController {
         Party p = new Party();
         p.addCombatant(new Combatant());
         JFrame frame = new CreateNewPartyView(p);
+    }
+
+    public static void saveNewParty(ArrayList<NewSingleCombatantPanel> panels, String partyName, String partyType){
+        System.out.println("Writing new party to local storage");
+        Party saveParty = new Party();
+        for(NewSingleCombatantPanel panel : panels){
+            saveParty.addCombatant(extractCombatantFromNewSingleCombatantPanel(panel));
+        }
+        saveParty.setPartyType(PARTY_TYPE.valueOf(partyType));
+        if(partyName.length() > 0){
+            saveParty.setPartyName(partyName);
+        }
+        allParties.put(allParties.keySet().size(),saveParty);
+        for(Integer key : allParties.keySet()){
+            System.out.println(key);
+            System.out.println(allParties.get(key));
+        }
+    }
+
+    public static void saveAllData(){
+        System.out.println("saving data");
+        DataController.writeAllPartiesToFile(allParties);
+        System.out.println("save complete");
     }
 }
