@@ -1,0 +1,5 @@
+package model;
+
+public enum LIST_CLASS_OPTION {
+    CHOOSE_PLAYERS, ADD_MONSTERS, EDIT_PLAYERS, EDIT_MONSTERS
+}

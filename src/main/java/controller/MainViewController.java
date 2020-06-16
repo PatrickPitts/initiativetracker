@@ -162,4 +162,15 @@ public class MainViewController {
         DataController.writeAllPartiesToFile(allParties);
         System.out.println("save complete");
     }
+
+    public static void editParty(Party p){
+        System.out.println("Editing party");
+    }
+
+    public static void addMonstersToParty(Party p){
+        for(Combatant c : p.getAllCombatants()){
+            currentParty.addCombatant(c);
+        }
+        mainView.rebuild(currentParty);
+    }
 }

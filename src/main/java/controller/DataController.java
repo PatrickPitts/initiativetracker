@@ -71,7 +71,6 @@ public class DataController {
 
 
         for (Object key : allPartiesObject.keySet()) {
-            System.out.println(key);
             Integer partyKey = Integer.parseInt((String) key);
             partyMap.put(partyKey, new Party((JSONObject) allPartiesObject.get(key)));
         }

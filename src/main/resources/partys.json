@@ -3,52 +3,43 @@
     "nonplayers": {},
     "players": {
       "player1": {
-        "dexterity": 19,
-        "initiativeBonuses": {},
-        "maxHP": 0,
-        "initiative": 12,
-        "currentHP": 0,
-        "armorClass": 10,
-        "name": "Player3",
-        "combatantType": "PLAYER"
-      },
-      "player2": {
         "dexterity": 10,
         "initiativeBonuses": {},
         "maxHP": 0,
-        "initiative": 7,
+        "initiative": 16,
         "currentHP": 0,
         "armorClass": 10,
         "name": "Player1",
         "combatantType": "PLAYER"
       },
-      "player0": {
+      "player2": {
         "dexterity": 14,
         "initiativeBonuses": {},
         "maxHP": 0,
-        "initiative": 22,
+        "initiative": 14,
         "currentHP": 0,
         "armorClass": 10,
         "name": "Player2",
         "combatantType": "PLAYER"
+      },
+      "player0": {
+        "dexterity": 19,
+        "initiativeBonuses": {},
+        "maxHP": 0,
+        "initiative": 18,
+        "currentHP": 0,
+        "armorClass": 10,
+        "name": "Player3",
+        "combatantType": "PLAYER"
       }
     },
+    "partyName": null,
     "partyType": "PLAYERS"
   },
   "1": {
     "nonplayers": {},
     "players": {
       "player1": {
-        "dexterity": 9,
-        "initiativeBonuses": {},
-        "maxHP": 0,
-        "initiative": 0,
-        "currentHP": 0,
-        "armorClass": 10,
-        "name": "Gamma",
-        "combatantType": "PLAYER"
-      },
-      "player2": {
         "dexterity": 15,
         "initiativeBonuses": {},
         "maxHP": 0,
@@ -58,7 +49,7 @@
         "name": "Alpha",
         "combatantType": "PLAYER"
       },
-      "player0": {
+      "player2": {
         "dexterity": 13,
         "initiativeBonuses": {},
         "maxHP": 0,
@@ -67,8 +58,19 @@
         "armorClass": 10,
         "name": "Beta",
         "combatantType": "PLAYER"
+      },
+      "player0": {
+        "dexterity": 9,
+        "initiativeBonuses": {},
+        "maxHP": 0,
+        "initiative": 0,
+        "currentHP": 0,
+        "armorClass": 10,
+        "name": "Gamma",
+        "combatantType": "PLAYER"
       }
     },
+    "partyName": null,
     "partyType": "PLAYERS"
   },
   "2": {
@@ -105,6 +107,44 @@
       }
     },
     "players": {},
+    "partyName": "Goblins",
+    "partyType": "MONSTER"
+  },
+  "3": {
+    "nonplayers": {
+      "nonplayer0": {
+        "dexterity": 10,
+        "initiativeBonuses": {},
+        "maxHP": 1,
+        "initiative": 0,
+        "currentHP": 1,
+        "armorClass": 10,
+        "name": "Vrok1",
+        "combatantType": "MONSTER"
+      },
+      "nonplayer1": {
+        "dexterity": 10,
+        "initiativeBonuses": {},
+        "maxHP": 1,
+        "initiative": 0,
+        "currentHP": 1,
+        "armorClass": 10,
+        "name": "Vrok2",
+        "combatantType": "MONSTER"
+      },
+      "nonplayer2": {
+        "dexterity": 10,
+        "initiativeBonuses": {},
+        "maxHP": 1,
+        "initiative": 0,
+        "currentHP": 1,
+        "armorClass": 10,
+        "name": "Vrock3",
+        "combatantType": "MONSTER"
+      }
+    },
+    "players": {},
+    "partyName": "Demons",
     "partyType": "MONSTER"
   }
 }

@@ -40,6 +40,7 @@ public class Party {
         JSONObject playerObject = (JSONObject) partyObject.get("players");
         JSONObject otherObject = (JSONObject) partyObject.get("nonplayers");
         partyType = PARTY_TYPE.valueOf((String) partyObject.get("partyType"));
+        partyName = (String) partyObject.get("partyName");
         try {
             for (Object o : playerObject.values()) {
                 JSONObject j = (JSONObject) o;
